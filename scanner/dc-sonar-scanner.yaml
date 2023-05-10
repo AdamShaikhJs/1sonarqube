@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  sscanner:
+    container_name: sonar_scanner
+    image: sonarsource/sonar-scanner-cli
+    extra_hosts:
+      - "sqube.localhost:10.10.10.10"
+    volumes:
+      - ${PROJECT_DIRECTORY}:/usr/src
+      - ./sonar-project.properties:/opt/sonar-scanner/conf/sonar-project.properties
+      - ./sonar-project.properties:/opt/sonar-scanner/conf/sonar-scanner.properties
+    environment:
+      PROJECT_KEY: ${PROJECT_KEY}
+      PROJECT_TOKEN: ${PROJECT_TOKEN}
+    networks:
+      default:
+        ipv4_address: 10.10.10.12
+
+networks:
+  default:
+    external:
+      name: sqube_network
